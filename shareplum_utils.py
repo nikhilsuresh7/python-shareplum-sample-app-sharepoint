@@ -68,3 +68,57 @@ class SharePoint:
         else:
             print(f"List '{list_name}' does not exists.")
 
+    def add_update_list_items(self, list_name, data: List[Dict], operation_kind: str) -> None:
+        """
+        Add or update list items based on the value of 'operation_kind'
+        """
+        if self.list_exists(list_name):
+            list_obj = self.site.List(list_name)
+
+            if operation_kind not in ('New', 'Update'):
+                print(f"Invalid Kind!")
+                exit()
+
+            list_obj.UpdateListItems(data=data, kind=operation_kind)
+            print(f"Success - {operation_kind} list.")
+        else:
+            print(f"List '{list_name}' does not exists.")
+
+    def delete_list_items(self, list_name, data: List[str], operation_kind: str or int) -> None:
+        """
+        Delete list items based on the value of 'operation_kind'
+        """
+        if self.list_exists(list_name):
+            list_obj = self.site.List(list_name)
+
+            if operation_kind != 'Delete':
+                print(f"Invalid Kind!")
+                exit()
+
+            list_obj.UpdateListItems(data=data, kind=operation_kind)
+            print(f"Success - {operation_kind} list.")
+        else:
+            print(f"List '{list_name}' does not exists.")
+
+    def get_list_items(self, list_name:str, fields: List[str]) -> List[Dict]:
+        """
+        Get items list filtered by field names
+        """
+        if self.list_exists(list_name):
+            list_obj = self.site.List(list_name)
+            sp_data = list_obj.GetListItems(fields=fields)
+            return sp_data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
